@@ -52,6 +52,7 @@ import {
   checkAdminPermission,
 } from "@/lib/system-config-store";
 import { useCategoriesStore, ProductCategory, CategoryAttribute } from "@/lib/categories-store";
+import { CategoryManagement } from "@/components/admin/category-management";
 import { useSiteSettingsStore } from "@/lib/site-settings-store";
 import { useApprovalWorkflowsStore, ApprovalRequest } from "@/lib/approval-workflows-store";
 import {
@@ -744,88 +745,10 @@ function AdminDashboardContent() {
             </TabsContent>
           )}
 
-          {/* Audit Logs Tab */}
           {/* Categories Management Tab - Master Admin Only */}
           {isMasterAdmin && (
             <TabsContent value="categories">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2"><Layers className="w-5 h-5" />Category Management</CardTitle>
-                      <CardDescription>Manage product categories and their attributes</CardDescription>
-                    </div>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button><Plus className="w-4 h-4 mr-2" />Add Category</Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Create New Category</DialogTitle>
-                          <DialogDescription>Add a new product category to the marketplace</DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4 py-4">
-                          <div><Label>Category Name</Label><Input placeholder="e.g., Electronics" /></div>
-                          <div><Label>Description</Label><Textarea placeholder="Category description..." /></div>
-                          <div><Label>Icon (emoji)</Label><Input placeholder="e.g., 📱" maxLength={2} /></div>
-                          <div className="flex items-center space-x-2"><Switch id="active" defaultChecked /><Label htmlFor="active">Active</Label></div>
-                          <div className="flex items-center space-x-2"><Switch id="menu" defaultChecked /><Label htmlFor="menu">Show in Menu</Label></div>
-                          <div className="flex items-center space-x-2"><Switch id="home" defaultChecked /><Label htmlFor="home">Show on Homepage</Label></div>
-                        </div>
-                        <DialogFooter><Button>Create Category</Button></DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-12"></TableHead>
-                        <TableHead>Category</TableHead>
-                        <TableHead>Slug</TableHead>
-                        <TableHead>Attributes</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {categories.map((category) => (
-                        <TableRow key={category.id}>
-                          <TableCell><GripVertical className="w-4 h-4 text-gray-400 cursor-grab" /></TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xl">{category.icon}</span>
-                              <div>
-                                <p className="font-medium">{category.name}</p>
-                                <p className="text-xs text-muted-foreground">{category.description?.slice(0, 50)}...</p>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell><code className="text-xs bg-gray-100 px-2 py-1 rounded">{category.slug}</code></TableCell>
-                          <TableCell><Badge variant="outline">{category.attributes.length} fields</Badge></TableCell>
-                          <TableCell>
-                            <Badge variant={category.isActive ? "default" : "secondary"} className={category.isActive ? "bg-green-100 text-green-800" : ""}>
-                              {category.isActive ? "Active" : "Inactive"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild><Button variant="ghost" size="sm"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
-                              <DropdownMenuContent>
-                                <DropdownMenuItem><Edit className="w-4 h-4 mr-2" />Edit Category</DropdownMenuItem>
-                                <DropdownMenuItem><Tag className="w-4 h-4 mr-2" />Manage Attributes</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-red-600"><Trash2 className="w-4 h-4 mr-2" />Delete</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
+              <CategoryManagement />
             </TabsContent>
           )}
 
