@@ -39,8 +39,24 @@ MarketHub is a secure marketplace platform for Ghana with verified vendors, Mobi
 - **Unified Logout**: All user types (Buyer, Vendor, Admin) use `/api/auth/logout` endpoint
 - **Session Validation**: Role derived from server-side session, not separate cookies
 
+## Governance System
+- **Vendor Product Gating**: Unverified vendors can create drafts but cannot publish (auto-downgraded to 'draft' with 403)
+- **Category Management**: Database-backed CRUD with dynamic form schema builder (src/components/admin/category-management.tsx)
+- **Admin Product Creation**: Admins can create products on behalf of vendors via vendorId parameter
+- **Admin User Creation**: Uses canonical createUser() for all user types (src/app/api/admin/users/route.ts)
+- **Audit Logging**: All critical actions logged to audit_logs table with admin metadata (src/lib/db/dal/audit.ts)
+
+## Admin Components
+- `VendorManagement` - Vendor verification, approve/reject/suspend with audit trail
+- `UserManagement` - User CRUD, role management, status actions
+- `CategoryManagement` - Category CRUD with dynamic form field builder
+- `AuditLogs` - View audit trail for all governance actions
+
 ## Recent Changes (January 2026)
+- Implemented comprehensive governance system with vendor verification gating
+- Added CategoryManagement component with database-backed API integration
+- Replaced localStorage-based category store with database persistence
+- Added audit logging to product CRUD, vendor verification, user creation
 - Fixed logout and session termination for Firefox compatibility
 - Removed localStorage persistence from auth store
 - Consolidated to single session_token cookie (removed user_role and is_authenticated cookies)
-- Made logout await server response before redirecting
